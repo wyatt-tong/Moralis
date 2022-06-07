@@ -7,13 +7,13 @@ const query = require('./query')
 const app = new Koa();
 app.use(bodyParser());
 
-// log request URL:
+/*** log request URL: ***/ 
 app.use(async (ctx, next) => {
     console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
     await next();
 });
 
-
+/*** Index Page ***/
 router.get('/', async (ctx, next) => {
     ctx.response.body = `<h1>Index</h1>
         <form action="/download" method="post">
@@ -22,12 +22,16 @@ router.get('/', async (ctx, next) => {
         </form>`;
 });
 
+/*** Process download requests. ***/
 router.post('/download', async (ctx, next) => {
-    var
-        address = ctx.request.body.address || '';
+    var address = ctx.request.body.address || '';
     if (address != "" && address != null && address != undefined) {
         let file_name = address + ".csv";
+
+        /*** Execute query and generate the csv file. ***/
         await query.convert(address);
+
+        /*** Since there might be some delay to create the csv file, check if the file exists first. ***/
         if(fs.existsSync(file_name)){
             await ctx.attachment(file_name);
             await send(ctx, file_name);
@@ -41,7 +45,7 @@ router.post('/download', async (ctx, next) => {
     }
 });
 
-// add router middleware:
+/*** Add router middleware: ***/
 app.use(router.routes());
 
 app.listen(3005);

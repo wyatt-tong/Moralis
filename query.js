@@ -3,9 +3,7 @@ const query = async (address) => {
     const serverUrl = "https://3icohbegrdwa.usemoralis.com:2053/server";
     const appId = "uGr4RovwORtaAWsE7ELiBFYBHE0dg7Y2WeXA2yih";
     const masterKey = "UlW4C16Rv6Gz2yWZRUeV6cru0iXQKbqvtJCAAsaZ";
-    const EthContractAddr = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
     const fs = require('fs');
-    //const address = "0xad1d9d536d2eC0DA134cd6Eba570b62c734ea2eD";
     const addr = address.toLowerCase();
     var json = '[';
 
@@ -59,7 +57,7 @@ const query = async (address) => {
     }
     json += ']'
 
-    //Write the JSON to a file
+    /*** Write the JSON to a file ***/
     fs.writeFile(addr + ".json", json, 'utf8', function (err) {
         if (err) {
             console.log("An error occured while writing JSON Object to File.");
@@ -83,7 +81,9 @@ function execute(cmd){
         }
     });
    
-    }
+ }
+
+ /*** Get query results and generate csv file. ***/
 const convert = async (address) => {
     await query(address.toLowerCase());
     const fs = require('fs');
