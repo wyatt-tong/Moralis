@@ -26,29 +26,15 @@ router.post('/download', async (ctx, next) => {
     var
         address = ctx.request.body.address || '';
     if (address != "" && address != null && address != undefined) {
-        ctx.response.body = `<h1>Dowloading File</h1>
-        <p><a href="/">Back to Index</a></p>`;
         let file_name = address + ".csv";
         await query.convert(address);
-        await ctx.attachment(file_name);
-        await send(ctx, file_name);
-        // query.convert(address).then(function() {
-        //     ctx.attachment(file_name);
-        //     send(ctx, file_name);
-        // });
-
-        // let getFile = async(file_name) =>{
-        //     await query.convert(address);
-        //     await ctx.attachment(file_name);
-        //     await send(ctx, file_name);
-        // }
-        // getFile(file_name);
-
-        // Promise.resolve(convert(file_name)).then(()=>{
-        //     query.convert(address);
-        //     ctx.attachment(file_name);
-        //     send(ctx, file_name);
-        // })
+        if(fs.existsSync(file_name)){
+            await ctx.attachment(file_name);
+            await send(ctx, file_name);
+        }
+        else{
+            ctx.response.body = `<h1>Getting data from server, please wait a few seconds and try again.</h1>`;
+        }   
     } else {
         ctx.response.body = `<h1>Address cannot be empty!</h1>
         <p><a href="/">Back to Index</a></p>`;

@@ -88,29 +88,9 @@ const convert = async (address) => {
     await query(address.toLowerCase());
     const fs = require('fs');
     const csv_file = address.toLowerCase() + ".csv";
-    if(fs.existsSync(csv_file)){
-        execute("rm " + csv_file);
-    }
-    
     execute("python3 convert.py" + " " + address.toLowerCase());
 }
 
-// const convert = async (address) => {
-//     let promise = new Promise(function(resolve, reject){
-//         query(address.toLowerCase());
-//         resolve()
-//     }
-//     )
-//     promise.then(function() {
-//         const fs = require('fs');
-//         const csv_file = address.toLowerCase() + ".csv";
-//         if(fs.existsSync(csv_file)){
-//             execute("rm " + csv_file);
-//         }
-//         execute("python3 convert.py" + " " + address.toLowerCase());
-//     })
-    
-// }
 
 module.exports = {
     convert
