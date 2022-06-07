@@ -38,22 +38,14 @@ const query = async (address) => {
     
     
     for (let i = 0; i < results.length; i++) {
-    const object = results[i];
+        const object = results[i];
 
-    let block = object.get("block_number");
-    
-    /*** When try to get historical price via Web3 API: Error: No pools found with enough liquidity, to calculate the price ***/
-    // let price_info = await Moralis.Web3API.token.getTokenPrice({"address":EthContractAddr, "to_block":11000000});
-    // let price = price_info.get("usdPrice");
-    //console.log(price_info);
-    //console.log(block);
-
-    /*** Convert the data to JSON. ***/
-    json += JSON.stringify(object);
-    if (i != results.length - 1){
-        json += ',\n';
-    }
-    //console.log(json);
+        let block = object.get("block_number");
+        /*** Convert the data to JSON. ***/
+        json += JSON.stringify(object);
+        if (i != results.length - 1){
+            json += ',\n';
+        }
     }
     json += ']'
 
